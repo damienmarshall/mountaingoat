@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>La Thuile Ski: The Mountain G.O.A.T.</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Intro Screen -->
+        <div id="intro-screen" class="screen">
+            <div class="glass-panel">
+                <h1>La Thuile Ski</h1>
+                <h2>The Mountain G.O.A.T.</h2>
+                <div class="goat-emoji-large">🐐</div>
+                
+                <div class="instructions-panel">
+                    <div class="instruction-row">
+                        <span class="inst-emoji">🌲 🪨</span>
+                        <span class="inst-text">Avoid the obstacles</span>
+                    </div>
+                    <div class="instruction-row">
+                        <div class="inst-ramp"></div>
+                        <span class="inst-text">Hit the jumps</span>
+                    </div>
+                </div>
+                
+                <p class="difficulty-warning">The more Bombardinos, the higher the score, but the harder it is to ski!</p>
+                
+                <div class="bombardino-selector">
+                    <p>Bombardinos Consumed</p>
+                    <div class="bombardino-options">
+                        <button class="b-btn" data-val="1">1</button>
+                        <button class="b-btn" data-val="2">2</button>
+                        <button class="b-btn selected" data-val="3">3</button>
+                    </div>
+                    <p id="bombardino-desc" class="desc-text">Select your drink...</p>
+                </div>
+                
+                <button id="start-btn" class="action-btn">Go down Red 7</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <canvas id="game-canvas"></canvas>
+            
+            <div id="ui-overlay">
+                <div id="score-display">
+                    <span class="label">SCORE</span>
+                    <span id="score-val">0</span>
+                </div>
+                <div id="multiplier-display">
+                    <span class="label">JUMP MULTIPLIER</span>
+                    <span id="multiplier-val">x1.0</span>
+                </div>
+                <div id="speed-indicator">
+                    <span class="label">DRINKS</span>
+                    <span id="drinks-val">🍹</span>
+                </div>
+            </div>
+            
+            <!-- Touch Controls (Bottom of screen) -->
+            <div id="touch-controls">
+                <button id="btn-left" class="touch-btn">◀</button>
+                <button id="btn-right" class="touch-btn">▶</button>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="game-over-screen" class="screen hidden">
+            <div class="glass-panel over-panel">
+                <h1>WIPEOUT!</h1>
+                <div class="dead-goat">💫🐐💫</div>
+                <div class="score-board">
+                    <p>Final Score</p>
+                    <h2 id="final-score">0</h2>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <button id="restart-btn" class="action-btn">Try Again</button>
+                    <button id="menu-btn" class="action-btn alt-btn">Main Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
