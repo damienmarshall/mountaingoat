@@ -150,10 +150,8 @@ function initGame(e) {
     scoreVal.innerText = '0';
     multiplierVal.innerText = 'x1.0';
 
-    // Initial clear runway, spawn some obstacles further down
-    for (let i = 1; i < 8; i++) {
-        spawnObstacle(height * 0.4 + i * (height / 8));
-    }
+    // Guarantee an early jump so the player can start building multiplier
+    spawnObstacle(height * 0.8, true);
 
     introScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
@@ -164,9 +162,9 @@ function initGame(e) {
     gameLoopId = requestAnimationFrame(update);
 }
 
-function spawnObstacle(yPos) {
-    // 5% chance for a jump ramp, otherwise scatter trees/rocks. Increased density below.
-    const isJump = Math.random() < 0.15;
+function spawnObstacle(yPos, forceJump = false) {
+    // 15% chance for a jump ramp, otherwise scatter trees/rocks. Increased density below.
+    const isJump = forceJump || Math.random() < 0.15;
     const scale = 0.8 + Math.random() * 0.6; // 0.8 to 1.4 size variance
     const padding = 30;
     const xPos = padding + Math.random() * (width - padding * 2);
@@ -447,6 +445,20 @@ function updateObstacles() {
     // 0 score = ~0.03 density. 10,000 score = ~0.15 density.
     let scoreModifier = Math.min((score / 10000) * 0.12, 0.4); // Cap max additional density from score at 0.4
     let density = 0.03 + scoreModifier;
+
+    // Grace period for the start of gameplay based on difficulty
+    // Level 1: ~3s (900px), Level 2: ~6s (1800px), Level 3: ~10s (3000px)
+    let graceDistance = 3000;
+    if (bombardinos === 1) graceDistance = 900;
+    if (bombardinos === 2) graceDistance = 1800;
+
+    if (distanceTraveled < graceDistance) {
+        density = 0.002; // Very empty, gives time to react
+    } else if (distanceTraveled < graceDistance * 2) {
+        // Ramp up gradually over the next few seconds
+        let progress = (distanceTraveled - graceDistance) / graceDistance;
+        density = 0.002 + (density - 0.002) * progress;
+    }
 
     // Base chance of spawning 1 obstacle each tick
     if (Math.random() < density) {
